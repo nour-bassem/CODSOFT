@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/index.css">
+    <link rel="stylesheet" href="/src/button.css">
+    <title>Job Board</title>
+    <script type="module" src="/src/main.jsx"></script>
+
+    <script>
+      function search() {
+          const searchTerm = document.getElementById('searchTerm').value;
+          fetch(`/search?searchTerm=${encodeURIComponent(searchTerm)}`)
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  const resultsDiv = document.getElementById('results');
+                  resultsDiv.innerHTML = '';
+                  data.forEach(item => {
+                      const p = document.createElement('p');
+                      p.textContent = JSON.stringify(item);
+                      resultsDiv.appendChild(p);
+                  });
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  const resultsDiv = document.getElementById('results');
+                  resultsDiv.innerHTML = 'An error occurred. Please try again later.';
+              });
+      }
+
+
+      function results() {
+    const card = `
+        <div class="card">
+           Company Name: &nbsp; Amazon <br><br> Field: &nbsp; Computer Science <br><br>  Region:&nbsp; Egypt <br><br>  Type:&nbsp; Full Time
+        </div>
+        <div class="card">
+          Company Name:&nbsp; Microsoft <br><br>  Field: &nbsp;Computer Science <br><br>  Region:&nbsp; Egypt <br><br>  Type:&nbsp; Full Time
+        </div>
+        <div class="card">
+          Company Name:&nbsp; CodSoft <br><br>  Field:&nbsp; Computer Science <br><br>  Region:&nbsp; Egypt <br><br>  Type:&nbsp; Full Time
+        </div>
+    `;
+
+    document.getElementById('results').innerHTML = card;
+}
+
+
+  </script>
+  </head>
+  <body>
+    <section class="main">
+    <div class="mainWindow">
+      <div class="nav">
+        <h3>JOB BOARD</h3>
+        <div class="nav-content">
+            <a href="#">Home  &nbsp;</a>
+
+          <div class="browse-job-button">
+            <select class="browse-job" id="dropdown-btn">
+              <div class="dropdown-content">
+              <option disabled selected class="option">Browse Job▼ </option>
+              <option id="top" class="option">Candidate</option>
+              <option id="middle" class="option">Employer</option></div>
+            </select>
+          </div>
+          <a href="#">About Us  &nbsp;</a>
+          <a href="#">Contact  &nbsp;</a>
+        </div> 
+
+          <div class="nav-login">
+            <button class="login-button" onClick="window.location.href='login_form.html'"> Log In
+            </button>
+            <button type="button" class="post-button" onClick="window.location.href='postJob_form.html'">
+            <span class="button__text">Post A Job</span>
+            <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+            </button></div>
+      
+    </div>
+  
+      <div class="find-job">
+        <p>Find your Dream Job</p>
+        <p class="p2">Search from <b>4500+</b> Jobs</p>
+
+        <div class="inputs">
+          <div class="input-box-user">
+            <input required="" type="text" name="text" class="job-name">
+            <label class="user">Job Title, Company</label>
+          </div>
+
+          <div class="input-box-Dropdown"> 
+            <!-- onfocus="this.size=2;" onblur="this.size=0;" onchange="this.size=1; this.blur(); "-->
+            <select class="button" id="dropdown-btn" >
+            <div class="dropdown-content">
+              <option disabled selected class="option" >Select Region &nbsp; ▼</option>
+              <option id="top" class="option">Anywhere</option>
+              <option id="middle" class="option">Egypt</option></div>
+              <option id="middle" class="option">Alexandria</option></div>              
+            </select>
+          </div>
+
+          <div class="input-box-Dropdown">
+            <select class="button" id="dropdown-btn" >
+            <div class="dropdown-content">
+              <option disabled selected class="option">Select Job Type &nbsp; ▼</option>
+              <option id="top" class="option">Part Time</option>
+              <option id="middle" class="option">Full Time</option></div>
+            </select>
+          </div>
+
+
+          
+            <button class="search-button" onclick="return results()">
+              <span>
+                Search Job
+                <svg
+                  viewBox="0 0 19.9 19.7"
+                  xmlns="http://www.w3.org/2000/svg"
+                  role="img"
+                  aria-labelledby="title desc"
+                  class="svg-icon search-icon">
+                  <g stroke="white" fill="none" class="search-path">
+                    <path d="M18.5 18.3l-5.4-5.4" stroke-linecap="square"></path>
+                    <circle r="7" cy="8" cx="8"></circle>
+                  </g>
+                </svg>
+              </span>
+            </button>
+            
+        </div>
+  
+
+
+    </div>
+     <div id="results"></div>
+  </section>
+
+  
+
+  </body>
+</html>
